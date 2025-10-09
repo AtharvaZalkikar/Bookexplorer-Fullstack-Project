@@ -40,7 +40,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     'books',
-    'django_filters',  # 👈 For filter, searching and sorting etc..
+    'django_filters',  #  For filter, searching and sorting etc..
     'corsheaders',
 ]
 
