@@ -43,46 +43,63 @@ function Navbar() {
   };
 
   return (
-    <nav className="bg-gray-800 px-6 py-4 text-white shadow">
-      <ul className="flex items-center gap-6 text-lg font-medium w-full">
-        <li><Link to="/" className={navLinkClass('/')}>Home</Link></li>
-        <li><Link to="/search" className={navLinkClass('/search')}>Search Books</Link></li>
+    <nav className="bg-gray-900 text-white shadow-md">
+      <div className="max-w-6xl mx-auto px-6 py-4 flex items-center">
+        
+        {/* Brand */}
+        <Link
+          to="/"
+          className="text-xl font-bold text-blue-400 hover:text-blue-300"
+        >
+          📚 BookExplorer
+        </Link>
 
-        {isLoggedIn && (
-          <>
-            <li><Link to="/add-book" className={navLinkClass('/add-book')}>Add Book</Link></li>
-            <li><Link to="/my-books" className={navLinkClass('/my-books')}>My Books</Link></li>
-          </>
-        )}
+        {/* Nav Links */}
+        <div className="flex items-center gap-6 ml-10 text-sm font-medium">
+          <Link to="/" className={navLinkClass('/')}>Home</Link>
+          <Link to="/search" className={navLinkClass('/search')}>Search</Link>
 
-        <li className="ml-auto flex items-center gap-4">
           {isLoggedIn && (
-            <span className="text-sm opacity-80">Welcome, {username || '…'}</span>
+            <>
+              <Link to="/add-book" className={navLinkClass('/add-book')}>Add Book</Link>
+              <Link to="/my-books" className={navLinkClass('/my-books')}>My Books</Link>
+            </>
           )}
+        </div>
+
+        {/* Right side */}
+        <div className="ml-auto flex items-center gap-4">
+          {isLoggedIn && (
+            <span className="text-sm text-gray-300">
+              Welcome, <span className="font-medium text-white">{username || '…'}</span>
+            </span>
+          )}
+
           {!isLoggedIn ? (
             <>
-            <Link
-              to="/login"
-              className="bg-blue-500 px-3 py-1 rounded hover:bg-blue-600 text-white"
-            >
-              Login
-            </Link>
-            <Link
+              <Link
+                to="/login"
+                className="bg-blue-600 px-4 py-1.5 rounded hover:bg-blue-700 text-sm"
+              >
+                Login
+              </Link>
+              <Link
                 to="/signup"
-                className="bg-green-500 px-3 py-1 rounded hover:bg-green-600 text-white"
+                className="bg-green-600 px-4 py-1.5 rounded hover:bg-green-700 text-sm"
               >
                 Sign Up
-              </Link></>
+              </Link>
+            </>
           ) : (
             <button
               onClick={handleLogout}
-              className="bg-red-500 px-3 py-1 rounded hover:bg-red-600 text-white"
+              className="bg-red-600 px-4 py-1.5 rounded hover:bg-red-700 text-sm"
             >
               Logout
             </button>
           )}
-        </li>
-      </ul>
+        </div>
+      </div>
     </nav>
   );
 }

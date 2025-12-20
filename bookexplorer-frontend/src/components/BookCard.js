@@ -6,6 +6,8 @@ function BookCard({ book, showSave = false, onDelete = null }) {
   const [saved, setSaved] = useState(false);
   const [deleting, setDeleting] = useState(false);
   const [expanded, setExpanded] = useState(false);
+  const [imgError, setImgError] = useState(false);
+
 
   const handleSave = async () => {
     try {
@@ -44,27 +46,37 @@ function BookCard({ book, showSave = false, onDelete = null }) {
   };
 
   return (
-    <div className="bg-white shadow-md rounded-lg p-4 flex flex-col items-center w-64">
-      {book.cover_url ? (
-        <img
-          src={book.cover_url}
-          alt={book.title}
-          className="w-32 h-48 object-cover rounded mb-2"
-        />
-      ) : (
-        <div className="w-32 h-48 bg-gray-200 flex items-center justify-center mb-2">
-          <span className="text-gray-500">No Image</span>
-        </div>
-      )}
+    <div className="bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow duration-200 p-4 w-64 flex flex-col">
+      
+      {/* Cover */}
+      <div className="w-full flex justify-center mb-3">
+        {book.cover_url && !imgError ? (
+          <img
+            src={book.cover_url}
+            alt={book.title}
+            onError={() => setImgError(true)}
+            className="w-32 h-48 object-cover rounded mb-2"
+          />
+        ) : (
+          <div className="w-32 h-48 bg-gray-200 flex items-center justify-center mb-2 rounded">
+            <span className="text-gray-500 text-sm text-center px-2">
+              No Cover Available
+            </span>
+          </div>
+        )}
+      </div>
 
-      <h3 className="text-lg font-semibold text-center">{book.title}</h3>
-      <p className="text-sm text-gray-600 text-center">
+      {/* Title & Author */}
+      <h3 className="text-base font-semibold text-gray-900 text-center line-clamp-2">
+        {book.title}
+      </h3>
+      <p className="text-sm text-gray-500 text-center mt-1">
         {book.author || "Unknown Author"}
       </p>
 
-      {/* Description with toggle */}
+      {/* Description */}
       {book.description && (
-        <div className="mt-2 text-sm text-gray-700 w-full">
+        <div className="mt-3 text-sm text-gray-700">
           <p className={expanded ? "" : "line-clamp-3"}>
             {book.description}
           </p>
@@ -79,31 +91,32 @@ function BookCard({ book, showSave = false, onDelete = null }) {
         </div>
       )}
 
-      {/* Save button (only in SearchBooksPage) */}
-      {showSave && (
-        <button
-          onClick={handleSave}
-          disabled={saving || saved}
-          className={`mt-2 px-3 py-1 rounded ${
-            saved
-              ? "bg-green-500 text-white"
-              : "bg-blue-600 text-white hover:bg-blue-700"
-          }`}
-        >
-          {saved ? "Saved" : saving ? "Saving..." : "Save"}
-        </button>
-      )}
+      {/* Actions */}
+      <div className="mt-auto pt-4 flex flex-col gap-2">
+        {showSave && (
+          <button
+            onClick={handleSave}
+            disabled={saving || saved}
+            className={`w-full py-2 rounded-md text-sm font-medium transition ${
+              saved
+                ? "bg-green-500 text-white"
+                : "bg-blue-600 text-white hover:bg-blue-700"
+            }`}
+          >
+            {saved ? "Saved" : saving ? "Saving..." : "Save"}
+          </button>
+        )}
 
-      {/* Delete button (only in MyBooksPage) */}
-      {onDelete && (
-        <button
-          onClick={handleDelete}
-          disabled={deleting}
-          className="mt-2 px-3 py-1 rounded bg-red-600 text-white hover:bg-red-700"
-        >
-          {deleting ? "Deleting..." : "Delete"}
-        </button>
-      )}
+        {onDelete && (
+          <button
+            onClick={handleDelete}
+            disabled={deleting}
+            className="w-full py-2 rounded-md text-sm font-medium bg-red-600 text-white hover:bg-red-700 transition"
+          >
+            {deleting ? "Deleting..." : "Delete"}
+          </button>
+        )}
+      </div>
     </div>
   );
 }
