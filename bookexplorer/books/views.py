@@ -41,7 +41,7 @@ class BookViewSet(viewsets.ModelViewSet):
 
         # ✅ normal users see only their own books
         else:
-            return Book.objects.none()
+            return Book.objects.filter(owner=user).order_by('-created_at')
 
     def perform_create(self, serializer):
         # Set the owner to the logged-in user on book creation
@@ -94,7 +94,7 @@ class FetchAndSaveBookView(APIView):
 
         serializer = BookSerializer(data=book_data)
         if serializer.is_valid():
-            serializer.save()
+            serializer.save(owner=request.user)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -199,7 +199,7 @@ class SaveBookFromSearchView(APIView):
 
         serializer = BookSerializer(data=data)
         if serializer.is_valid():
-            serializer.save()
+            serializer.save(owner=request.user)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
