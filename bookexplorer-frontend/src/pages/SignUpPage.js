@@ -22,7 +22,7 @@ function SignUpPage() {
 
       // store token in localStorage
       localStorage.setItem("token", response.data.token);
-      setSuccess("Account created! You are logged in.");
+      setSuccess("Account created! User Registered.");
     } catch (err) {
       setError(err.response?.data?.error || "Something went wrong");
     }

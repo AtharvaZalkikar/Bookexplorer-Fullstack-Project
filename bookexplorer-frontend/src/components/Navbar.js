@@ -61,7 +61,7 @@ function Navbar() {
 
           {isLoggedIn && (
             <>
-              <Link to="/add-book" className={navLinkClass('/add-book')}>Add Book</Link>
+              {/* <Link to="/add-book" className={navLinkClass('/add-book')}>Add Book</Link> */}
               <Link to="/my-books" className={navLinkClass('/my-books')}>My Books</Link>
             </>
           )}
