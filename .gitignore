@@ -25,3 +25,7 @@ Thumbs.db
 
 # Ignore compiled files
 *.log
+
+
+# Django static files ignore the collectstatic->staticfiles folder
+staticfiles/

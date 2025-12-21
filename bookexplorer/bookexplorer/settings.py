@@ -11,6 +11,11 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 from pathlib import Path
+import os                                   # prod upadate
+from dotenv import load_dotenv              # prod upadate
+
+load_dotenv()        # prod upadate
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -20,12 +25,23 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-5ua0wgn7yl61@5a=wc57e-d$bq3$6==adw#*!v9y=-gu$bo5lp'
+# SECRET_KEY = 'django-insecure-5ua0wgn7yl61@5a=wc57e-d$bq3$6==adw#*!v9y=-gu$bo5lp'
+
+SECRET_KEY = os.getenv("DJANGO_SECRET_KEY", "unsafe-dev-key")                          # prod upadate
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
+# DEBUG = os.getenv("DJANGO_DEBUG", "False") == "True"                 # prod upadate
 
-ALLOWED_HOSTS = []
+# ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [                                                   # prod upadate
+    host for host in os.getenv(          
+        "DJANGO_ALLOWED_HOSTS",
+        "127.0.0.1,localhost"
+    ).split(",")
+    if host
+]
+
 
 
 # Application definition
@@ -80,12 +96,23 @@ WSGI_APPLICATION = 'bookexplorer.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
+
+
+# prod upadate
+import dj_database_url
+
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+    "default": dj_database_url.config(
+        default=f"sqlite:///{BASE_DIR / 'db.sqlite3'}"
+    )
 }
+
 
 
 # Password validation
@@ -140,6 +167,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
 STATIC_URL = 'static/'
+STATIC_ROOT = BASE_DIR / "staticfiles"              # prod upadate
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
@@ -148,4 +176,15 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 LOGIN_REDIRECT_URL = '/api/books/'
 
-CORS_ALLOW_ALL_ORIGINS = True
+# CORS_ALLOW_ALL_ORIGINS = True
+
+# prod upadate
+CORS_ALLOWED_ORIGINS = [
+    origin for origin in os.getenv(
+        "CORS_ALLOWED_ORIGINS",
+        "http://localhost:3000"
+    ).split(",")
+    if origin
+]
+
+CORS_ALLOW_CREDENTIALS = True
