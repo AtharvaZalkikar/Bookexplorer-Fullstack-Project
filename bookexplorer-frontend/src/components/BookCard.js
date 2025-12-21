@@ -85,7 +85,7 @@ function BookCard({ book, showSave = false, onDelete = null }) {
               onClick={() => setExpanded(!expanded)}
               className="text-blue-600 text-xs mt-1 hover:underline"
             >
-              {expanded ? "Show Less" : "Read More"}
+              {expanded ? "Show Less" : "love to know more"}
             </button>
           )}
         </div>
