@@ -3,9 +3,14 @@ import axios from 'axios';
 import { getToken, clearToken } from './auth';
 
 
+// const api = axios.create({
+//   baseURL: 'http://127.0.0.1:8000/', // root now, not just /api/ ---- local version
+// });
+
 const api = axios.create({
-  baseURL: 'http://127.0.0.1:8000/', // root now, not just /api/
+  baseURL: 'https://bookexplorer-backend-c8mr.onrender.com',
 });
+
 
 // Attach token from localStorage automatically
 api.interceptors.request.use((config) => {
@@ -37,18 +42,26 @@ export const searchBooks = (title) => {
 
 
 // Save book to backend
-export async function saveBookFromSearch(book) {
-  const response = await fetch("/api/save-from-search/", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(book),
-  });
 
-  if (!response.ok) {
-    throw new Error("Failed to save book");
-  }
-  return response.json();
-}
+// export async function saveBookFromSearch(book) {
+//   const response = await fetch("/api/save-from-search/", {
+//     method: "POST",
+//     headers: { "Content-Type": "application/json" },
+//     body: JSON.stringify(book),
+//   });
+
+//   if (!response.ok) {
+//     throw new Error("Failed to save book");
+//   }
+//   return response.json();
+// }
+
+// Save book to backend - prod
+
+export const saveBookFromSearch = (book) => {
+  return api.post("/api/save-from-search/", book);
+};
+
 
 
 export default api;
