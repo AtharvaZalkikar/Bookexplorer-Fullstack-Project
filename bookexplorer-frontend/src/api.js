@@ -1,6 +1,6 @@
 // src/api.js
 import axios from 'axios';
-import { getToken, clearToken } from './auth';
+import { clearToken } from './auth';
 
 
 // const api = axios.create({
