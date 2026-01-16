@@ -1,178 +1,167 @@
-\# 📚 **BookExplorer API**
+# 📚 BookExplorer — Full Stack Book Discovery App
 
+**BookExplorer** is a fully deployed, production-ready **full‑stack web application** built with **Django REST Framework (backend)** and **React (frontend)**. It allows users to search for books using the Open Library API, save favorites, and manage their personal collection.
 
-
-BookExplorer is a Django REST Framework (DRF)-powered backend project that allows users to search, fetch, and save books using the Open Library API. It supports searching by title, fetching by ISBN, and prevents duplicate entries — all via clean, well-structured REST APIs.
-
-
-
----
-
-
-
-\## 🚀 **Features**
-
-
-
-🔍 Search books by title using Open Library's public API
-
-📚 Fetch book details using ISBN (title, author, publish date, cover, description)
-
-✍️ Save books to local database with duplicate prevention
-
-🔐 Admin-only deletion of books
-
-📑 Pagination, filtering, searching, and ordering
-
-📦 API-first architecture for React/JS frontend consumption
-
-
+🌐 **Live App:** [https://bookexplorerz.netlify.app](https://bookexplorerz.netlify.app)
+⚙️ **Backend API:** [https://bookexplorer-backend-c8mr.onrender.com](https://bookexplorer-backend-c8mr.onrender.com)
 
 ---
 
+## 🚀 Features
 
-
-\## 🛠 **Tech Stack**
-
-
-
-Python 3.10
-
-Django 5.1
-
-Django REST Framework
-
-Open Library API (external)
-
-SQLite (dev), deploy-ready with PostgreSQL
-
-Insomnia/Postman/React-compatible API
-
-
+* 🔍 Search books by title using Open Library’s public API
+* 📚 View book details (title, author, cover, publish date, description)
+* ❤️ Save books to your collection
+* 🔐 Authentication system (login / logout)
+* 👤 User-specific book collections (users only see their own saved books)  
+* 🛡️ Role-based permissions (admin can manage all data)
+* 🛡  Admin-only delete permissions
+* 📑 Pagination, filtering, searching, and ordering
+* 🌍 Fully deployed (Render + Netlify)
 
 ---
 
+## 🛠 Tech Stack
 
+### Backend
 
-\## ⚙️ **Getting Started**
+* Python 3.13
+* Django 5.2
+* Django REST Framework
+* PostgreSQL (production) / SQLite (development)
+* Token Authentication
 
+### Frontend
 
+* React (Create React App)
+* React Router
+* Axios
+* Tailwind CSS (via CDN for now)
 
-\### 1. Clone the repo
+### Deployment
 
+* Backend: **Render**
+* Frontend: **Netlify**
 
+---
+
+## ⚙️ Local Setup
+
+### 1. Clone the repo
 
 ```bash
-
-git clone https://github.com/AtharvaZalkikar/bookexplorer-backend.git
-
-cd bookexplorer-backend
-
-
-
-
-## 2. Create a virtual environment
-
-python -m venv venv
-
-\\# On Windows:
-
-venv\\\\Scripts\\\\activate
-
-\\# On Mac/Linux:
-
-source venv/bin/activate
-
-
-
-
-## 3. Install dependencies
-
-pip install -r requirements.txt
-
-
-
-
-## 4. Run migrations
-
-python manage.py migrate
-
-
-
-
-## 5. Run the development server
-
-python manage.py runserver 
-
+git clone https://github.com/AtharvaZalkikar/Bookexplorer-Fullstack-Project.git
+cd Bookexplorer-Fullstack-Project
 ```
 
+---
 
+### 2. Backend setup
+
+```bash
+cd bookexplorer-backend
+python -m venv venv
+venv\Scripts\activate   # Windows
+# or
+source venv/bin/activate  # Mac/Linux
+
+pip install -r requirements.txt
+python manage.py migrate
+python manage.py runserver
+```
+
+Backend runs at: [http://127.0.0.1:8000](http://127.0.0.1:8000)
 
 ---
 
+### 3. Frontend setup
 
+```bash
+cd bookexplorer-frontend
+npm install
+npm start
+```
 
-🔐 **Authentication**
-
-* All GET and POST endpoints are publicly accessible.
-* DELETE and PUT operations on books require authentication and are restricted to staff/admin users.
-* Authentication system is DRF-ready (token-based or session-based login support).
-
----
-
-**🔗 API Endpoints**
-
-
-
-| Endpoint                 | Method      | Description                            | Auth Required  |
-
-| ------------------------ | ----------- | -------------------------------------- | -------------  |
-
-| `/search-open?title=...` | `GET`       | Search books from Open Library         | No             |
-
-| `/fetch-book/?isbn=...`  | `GET`       | Fetch book details from Open Library   | No             |
-
-| `/fetch-and-save/`       | `POST`      | Fetch from ISBN and save to DB         | No             |
-
-| `/save-from-search/`     | `POST`      | Save book (manual or from search list) | No             |
-
-| `/books/`                | `GET`       | List all saved books (with filters)    | No             |
-
-| `/books/<id>/`           | `DELETE`    | Delete a book                          | ✅ Yes (Admin) |
-
-| `/books/<id>/`           | `PUT/PATCH` | Update a book                          | ✅ Yes (Auth)  |
-
-
+Frontend runs at: [http://localhost:3000](http://localhost:3000)
 
 ---
 
+## 🔐 Authentication & Permissions
 
+* Public users can:
 
-\##📌**Filtering, Search, and Ordering**
+  * Search books
+  * View saved books
 
+* Authenticated users can:
 
+  * Save books to database
 
-You can use the following query params on /books/:
+* Admin users can:
 
-
-
-* ?search=tolkien → matches title or author
-* ?ordering=published\_date → ascending
-* ?ordering=-title → descending by title
-* ?published\_date=2001 → exact match filter
-
----
-
-🧑‍💻 **Author**
-
-Atharva Zalkikar
-[GitHub](https://github.com/AtharvaZalkikar/bookexplorer-backend)
+  * Delete books
 
 ---
 
-📍 Roadmap
+## 🔗 API Endpoints
 
-✅ Backend API completed with testing
-🎨 React / Tailwind frontend integration (up next!)
-🌐 Deployment to global server
+| Endpoint                      | Method | Description                    | Auth    |
+| ----------------------------- | ------ | ------------------------------ | ------- |
+| `/api/search-open/?title=...` | GET    | Search books from Open Library | ❌       |
+| `/api/save-from-search/`      | POST   | Save book to database          | ✅       |
+| `/api/books/`                 | GET    | List saved books               | ❌       |
+| `/api/books/<id>/`            | DELETE | Delete a book                  | ✅ Admin |
 
+---
+
+## 📌 Filtering, Search, and Ordering
+
+You can use these query params on `/api/books/`:
+
+* `?search=tolkien`
+* `?ordering=title`
+* `?ordering=-published_date`
+
+---
+
+## 📦 Deployment
+
+This project is fully deployed with:
+
+* Backend → Render
+* Frontend → Netlify
+* Environment variables
+* Production database
+* CORS configured
+* Static files handled
+
+📄 See **DEPLOYMENT.md** for full deployment steps.
+
+---
+
+## 👨‍💻 Author
+
+**Atharva Zalkikar**
+GitHub: [https://github.com/AtharvaZalkikar](https://github.com/AtharvaZalkikar)
+
+---
+
+## 📍 Roadmap
+
+* ✅ Backend APIs
+* ✅ Frontend React integration
+* ✅ Full deployment (Render + Netlify)
+* 🔄 UI polish
+* 🔄 Testing (pytest + React Testing Library)
+* 🔄 Dockerization
+
+---
+
+> This project represents my first complete end‑to‑end full‑stack deployment — from local development to live production.
+
+> Please Visit the BookExplorer WebApp via below LINK:
+
+🌐 **Live App:** [https://bookexplorerz.netlify.app](https://bookexplorerz.netlify.app)
+⚙️ **Backend API:** [https://bookexplorer-backend-c8mr.onrender.com](https://bookexplorer-backend-c8mr.onrender.com)
+
+Thank You.
