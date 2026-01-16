@@ -112,7 +112,7 @@ This ensures proper user data isolation and role-based access control.
 | `/api/books/`                 | GET    | List user’s own saved books    | ✅       |
 | `/api/books/<id>/`            | DELETE | Delete a book                  | ✅ Admin |
 
-* # Note: ⚠️ Admin users can view all books, while regular users only see their own entries.
+* ### Note: ⚠️ Admin users can view all books, while regular users only see their own entries.
 
 ---
 
