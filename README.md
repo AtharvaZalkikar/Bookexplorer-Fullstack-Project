@@ -88,18 +88,18 @@ Frontend runs at: [http://localhost:3000](http://localhost:3000)
 
 ## 🔐 Authentication & Permissions
 
-* Public users can:
+🔐 Authentication & Permissions
 
-  * Search books
-  * View saved books
-
-* Authenticated users can:
-
-  * Save books to database
-
+* Anonymous users can search and fetch books from Open Library  
+* Logged-in users can:
+  * Save books
+  * View only their own saved books
 * Admin users can:
+  * View and manage all users’ books
+  * Delete any book entry  
 
-  * Delete books
+This ensures proper user data isolation and role-based access control.
+
 
 ---
 
@@ -109,8 +109,10 @@ Frontend runs at: [http://localhost:3000](http://localhost:3000)
 | ----------------------------- | ------ | ------------------------------ | ------- |
 | `/api/search-open/?title=...` | GET    | Search books from Open Library | ❌       |
 | `/api/save-from-search/`      | POST   | Save book to database          | ✅       |
-| `/api/books/`                 | GET    | List saved books               | ❌       |
+| `/api/books/`                 | GET    | List user’s own saved books    | ✅       |
 | `/api/books/<id>/`            | DELETE | Delete a book                  | ✅ Admin |
+
+* # Note: ⚠️ Admin users can view all books, while regular users only see their own entries.
 
 ---
 
@@ -151,9 +153,12 @@ GitHub: [https://github.com/AtharvaZalkikar](https://github.com/AtharvaZalkikar)
 * ✅ Backend APIs
 * ✅ Frontend React integration
 * ✅ Full deployment (Render + Netlify)
-* 🔄 UI polish
-* 🔄 Testing (pytest + React Testing Library)
-* 🔄 Dockerization
+* ✅ UI polish
+
+* ✅ React + Tailwind frontend completed  
+* ✅ Full-stack deployment (Render + Netlify) completed  
+* Future: testing, CI/CD, performance optimizations
+
 
 ---
 
